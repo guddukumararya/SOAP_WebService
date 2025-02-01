@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<definitions xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://helloserviceprovider.example.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://helloserviceprovider.example.org/" name="HelloImplService">
+    <types>
+        <xsd:schema>
+            <xsd:import namespace="http://helloserviceprovider.example.org/" schemaLocation="http://localhost:8080/helloserviceprovider/hello?xsd=1"/>
+        </xsd:schema>
+    </types>
+    <message name="sayHello">
+        <part name="parameters" element="tns:sayHello"/>
+    </message>
+    <message name="sayHelloResponse">
+        <part name="parameters" element="tns:sayHelloResponse"/>
+    </message>
+    <portType name="HelloImpl">
+        <operation name="sayHello">
+            <input wsam:Action="http://helloserviceprovider.example.org/HelloImpl/sayHelloRequest" message="tns:sayHello"/>
+            <output wsam:Action="http://helloserviceprovider.example.org/HelloImpl/sayHelloResponse" message="tns:sayHelloResponse"/>
+        </operation>
+    </portType>
+    <binding name="HelloImplPortBinding" type="tns:HelloImpl">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <operation name="sayHello">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="HelloImplService">
+        <port name="HelloImplPort" binding="tns:HelloImplPortBinding">
+            <soap:address location="http://localhost:8080/helloserviceprovider/hello"/>
+        </port>
+    </service>
+</definitions>
